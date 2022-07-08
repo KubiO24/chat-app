@@ -1,6 +1,6 @@
 import React from "react";
 import { useRecoilState } from "recoil";  
-import { usernameState, avatarColorState } from "./globalState";
+import { usernameState, avatarColorState, loginnedUsersState } from "./globalState";
 import { socket } from './socketConnection';
 
 import Paper from "@mui/material/Paper";
@@ -25,6 +25,7 @@ const theme = createTheme();
 function Chat() {
     const [username, setUsername] = useRecoilState(usernameState);
     const [avatarColor, setAvatarColor] = useRecoilState(avatarColorState);
+    const [loginnedUsers, setloginnedUsers] = useRecoilState(loginnedUsersState);
 
     const logout = () => {
         socket.emit('logout');
@@ -66,27 +67,17 @@ function Chat() {
                     </Typography>
 
                     <List>
-                        <ListItem button key="user1">
-                            <ListItemIcon>
-                                <Avatar alt="user1" />
-                            </ListItemIcon>
-                            <ListItemText primary="user1">user1</ListItemText>
-                            <ListItemText secondary="online" align="right"></ListItemText>
-                        </ListItem>
-                        <ListItem button key="user2">
-                            <ListItemIcon>
-                                <Avatar alt="user2" />
-                            </ListItemIcon>
-                            <ListItemText primary="user2">user2</ListItemText>
-                            <ListItemText secondary="online" align="right"></ListItemText>
-                        </ListItem>
-                        <ListItem button key="user3">
-                            <ListItemIcon>
-                                <Avatar alt="user3" />
-                            </ListItemIcon>
-                            <ListItemText primary="user3">user3r</ListItemText>
-                            <ListItemText secondary="online" align="right"></ListItemText>
-                        </ListItem>
+                        {loginnedUsers.map(user => {
+                            return (
+                                <ListItem button key={user.username}>
+                                    <ListItemIcon>
+                                        <Avatar alt={user.username} sx={{bgcolor: user.avatarColor}} />
+                                    </ListItemIcon>
+                                    <ListItemText primary={user.username} />
+                                    <ListItemText secondary="online" align="right"></ListItemText>
+                                </ListItem>
+                            )
+                        })}
                     </List>
                 </Grid>
                 <Grid item xs={9}>
