@@ -3,21 +3,8 @@ import { useRecoilState } from 'recoil';
 import { usernameState, avatarColorState, loginnedUsersState } from './globalState';
 import { socket } from './socketConnection';
 
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Zoom from '@mui/material/Zoom';
-import Alert from '@mui/material/Alert';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Paper, Avatar, Button, Zoom, Alert, TextField, Box, Typography, Container } from "@mui/material";
 
-const theme = createTheme();
 const colorArray = [
     '#FF6633', '#FFB399', '#FF33FF', '#C2C23E', '#00B3E6', 
     '#E6B333', '#3366E6', '#999966', '#6EFF6E', '#B34D4D',
@@ -64,21 +51,21 @@ function SignIn() {
 
 
     return (
-        <ThemeProvider theme={theme}>
+        <>
             <Container maxWidth="sm" sx={{pt: 1}}>
                 <Zoom in={error}>
                     <Alert variant="outlined" severity="error" onClose={() => {setError(false)}}>{errorMsg}</Alert>
                 </Zoom>
             </Container>
             <Container maxWidth="xs">
-                <Box
+                <Paper
+                    elevation={4}
                     sx={{
                         marginTop: 8,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        border: 1,
-                        borderRadius: 5,
+                        borderRadius: 4,
                         padding: 5,
                         bgcolor: 'rgb(255, 255, 255)'
                     }}
@@ -108,9 +95,9 @@ function SignIn() {
                             Connect
                         </Button>
                     </Box>
-                </Box>
+                </Paper>
             </Container>
-        </ThemeProvider>
+        </>
     );
 }
 
