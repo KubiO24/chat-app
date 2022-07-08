@@ -39,45 +39,46 @@ function SignIn() {
 
     return (
         <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
-            <Box
-                sx={{
-                    marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    border: 1,
-                    borderRadius: 5,
-                    padding: 5,
-                }}
-            >
-                <Avatar sx={{ width: 64, height: 64, m: 1, bgcolor: 'error.main' }} />
-                    
-                <Typography component="h1" variant="h5">
-                    Connect to chat
-                </Typography>
+            <Container maxWidth="xs">
+                <Box
+                    sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        border: 1,
+                        borderRadius: 5,
+                        padding: 5,
+                        bgcolor: 'rgb(255, 255, 255)'
+                    }}
+                >
+                    <Avatar sx={{ width: 64, height: 64, m: 1, bgcolor: 'secondary.main' }} />
+                        
+                    <Typography component="h1" variant="h5">
+                        Connect to chat
+                    </Typography>
 
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                    <TextField
-                        margin="normal"
-                        fullWidth
-                        id="username"
-                        label="Username"
-                        name="username"
-                        autoComplete="username"
-                        autoFocus
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
-                        Connect
-                    </Button>
+                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                        <TextField
+                            margin="normal"
+                            fullWidth
+                            id="username"
+                            label="Username"
+                            name="username"
+                            autoComplete="username"
+                            autoFocus
+                        />
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            Connect
+                        </Button>
+                    </Box>
                 </Box>
-            </Box>
-        </Container>
+            </Container>
         </ThemeProvider>
     );
 }

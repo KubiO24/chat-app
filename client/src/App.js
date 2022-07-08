@@ -2,6 +2,8 @@ import { useRecoilValue } from 'recoil';
 import { usernameState } from './globalState';
 import { socket } from './socketConnection';
 import SignIn from './SignIn';
+import Main from './Chat';
+import './App.css'
 
 function App() {
     const username = useRecoilValue(usernameState);
@@ -11,7 +13,7 @@ function App() {
     });
 
     return (
-        <> {username == '' ? <SignIn /> : <div/>} </>
+        <> {username == '' ? <SignIn /> : <Main />} </>
     );
 }
 
