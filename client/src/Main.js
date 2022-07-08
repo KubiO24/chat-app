@@ -1,18 +1,12 @@
-import React from "react";
-import { useRecoilState, useRecoilValue } from "recoil";  
-import { usernameState, avatarColorState, loginnedUsersState } from "./globalState";
-import { socket } from './socketConnection';
 import User from './components/User';
 import SearchBar from './components/SearchBar';
 import UsersList from './components/UsersList';
 import Chat from './components/Chat';
+import ChatField from './components/ChatField';
 
-import { Grid, Divider, TextField, Typography, Fab } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
+import { Grid, Divider, Typography } from "@mui/material";
 
 function Main() {
-    const [username, setUsername] = useRecoilState(usernameState);
-
     return (
         <Grid container sx={{height: "100vh", bgColor: 'white'}}>
             <Grid item xs={3} sx={{borderRight: "1px solid #e0e0e0"}}>
@@ -20,8 +14,7 @@ function Main() {
 
                 <Divider />
 
-                <SearchBar />
-                
+                <SearchBar /> 
 
                 <Divider />
 
@@ -36,14 +29,7 @@ function Main() {
 
                 <Divider />
 
-                <Grid container style={{padding: "20px"}}>
-                    <Grid item xs={11}>
-                        <TextField id="outlined-basic-email" label="Type Something" fullWidth />
-                    </Grid>
-                    <Grid item xs={1} align="right">
-                        <Fab color="primary" aria-label="add"><SendIcon /></Fab>
-                    </Grid>
-                </Grid>
+                <ChatField />
             </Grid>
         </Grid>
     );
