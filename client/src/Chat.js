@@ -1,6 +1,7 @@
 import React from "react";
-import { useRecoilValue } from "recoil";  
+import { useRecoilState } from "recoil";  
 import { usernameState } from "./globalState";
+import { socket } from './socketConnection';
 
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
@@ -22,7 +23,12 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 const theme = createTheme();
 
 function Chat() {
-    const username = useRecoilValue(usernameState);
+    const [username, setUsername] = useRecoilState(usernameState);
+
+    const logout = () => {
+        socket.emit('logout', username);
+        setUsername('');
+    }
 
     return (
         <ThemeProvider theme={theme} >
@@ -40,6 +46,7 @@ function Chat() {
                                     size="medium"
                                     variant="contained"
                                     color="error"
+                                    onClick={logout}
                                 >
                                     Logout
                                 </Button>

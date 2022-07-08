@@ -44,6 +44,11 @@ io.on('connection', socket => {
 
     io.emit('userJoined', 1);
 
+    socket.on('logout', username => {
+        const user = connectedUsers.find( (user) => user.username == username );
+        user.username = '';
+    })
+
     socket.on('disconnect', () => {
         connectedUsers = connectedUsers.filter(user => user.id != socket.id);
         console.log(`Socket.io disconnected with id: ${socket.id}`);
