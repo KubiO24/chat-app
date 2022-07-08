@@ -53,7 +53,8 @@ function SignIn() {
             if(response.status == 'ok') {
                 setUsername(formUsername);
                 setAvatarColor(drawnColor);
-                setloginnedUsers(response.loginnedUsers)
+                const loginnedUsers = response.loginnedUsers.filter(user => user.username != formUsername);
+                setloginnedUsers(loginnedUsers);
             }else {
                 setError(true)
                 setErrorMsg(response.message)

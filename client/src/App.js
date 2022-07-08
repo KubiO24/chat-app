@@ -8,10 +8,6 @@ import './App.css'
 function App() {
     const username = useRecoilValue(usernameState);
 
-    socket.on('userJoined', newCount => {
-        console.log(newCount)
-    });
-
     return (
         <> {username == '' ? <SignIn /> : <Main />} </>
     );

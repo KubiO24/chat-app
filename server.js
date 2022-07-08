@@ -35,23 +35,27 @@ io.on('connection', socket => {
                 status: 'error',
                 message: 'User with given username is already connected.'
             })
-        }else {
-            const user = connectedUsers.find(user => user.id == socket.id);
-            user.username = username;
-            user.avatarColor = avatarColor;
-            const loginnedUsers = connectedUsers.filter(user => user.username != '' && user.username != username);
-            callback({
-                status: 'ok',
-                loginnedUsers: loginnedUsers
-            });    
-        }   
-    });
+            return;
+        }
 
-    io.emit('userJoined', 1);
+        const user = connectedUsers.find(user => user.id == socket.id);
+        user.username = username;
+        user.avatarColor = avatarColor;
+
+        const loginnedUsers = connectedUsers.filter(user => user.username != '');
+        socket.broadcast.emit('loginnedUsersChange', connectedUsers);
+        
+        callback({
+            status: 'ok',
+            loginnedUsers: loginnedUsers
+        });          
+    });
 
     socket.on('logout', args => {
         const user = connectedUsers.find( (user) => user.id == socket.id );
         user.username = '';
+        const loginnedUsers = connectedUsers.filter(user => user.username != '');
+        socket.broadcast.emit('loginnedUsersChange', loginnedUsers);
     })
 
     socket.on('disconnect', () => {

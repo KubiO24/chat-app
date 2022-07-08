@@ -1,5 +1,5 @@
 import React from "react";
-import { useRecoilState } from "recoil";  
+import { useRecoilState, useRecoilValue } from "recoil";  
 import { usernameState, avatarColorState, loginnedUsersState } from "./globalState";
 import { socket } from './socketConnection';
 
@@ -24,8 +24,14 @@ const theme = createTheme();
 
 function Chat() {
     const [username, setUsername] = useRecoilState(usernameState);
-    const [avatarColor, setAvatarColor] = useRecoilState(avatarColorState);
+    const avatarColor = useRecoilValue(avatarColorState);
     const [loginnedUsers, setloginnedUsers] = useRecoilState(loginnedUsersState);
+
+    socket.on('loginnedUsersChange', connectedUsers => {
+        const loginnedUsers = connectedUsers.filter(user => user.username != username);
+        setloginnedUsers(loginnedUsers);
+        console.log(loginnedUsers)
+    })
 
     const logout = () => {
         socket.emit('logout');
