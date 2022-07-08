@@ -1,6 +1,6 @@
 import React from "react";
 import { useRecoilState } from "recoil";  
-import { usernameState } from "./globalState";
+import { usernameState, avatarColorState } from "./globalState";
 import { socket } from './socketConnection';
 
 import Paper from "@mui/material/Paper";
@@ -24,6 +24,7 @@ const theme = createTheme();
 
 function Chat() {
     const [username, setUsername] = useRecoilState(usernameState);
+    const [avatarColor, setAvatarColor] = useRecoilState(avatarColorState);
 
     const logout = () => {
         socket.emit('logout', username);
@@ -37,7 +38,7 @@ function Chat() {
                     <List>
                         <ListItem >
                             <ListItemIcon>
-                                <Avatar alt="user" sx={{bgcolor: "secondary.main"}}/>
+                                <Avatar alt="user" sx={{bgcolor: avatarColor}}/>
                             </ListItemIcon>
                             <ListItemText primary={username}></ListItemText>
                             <ListItemText align="right">

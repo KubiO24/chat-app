@@ -24,10 +24,11 @@ io.on('connection', socket => {
     console.log(`Socket.io connected with id: ${socket.id}`);
     connectedUsers.push({
         username: '',
+        avatarColor: '000000',
         id: socket.id
     })
 
-    socket.on("login", (username, callback) => {
+    socket.on("login", (username, avatarColor, callback) => {
         if( connectedUsers.find(user => user.username == username ) != undefined) {
             callback({
                 status: 'error',
@@ -37,6 +38,7 @@ io.on('connection', socket => {
 
         const user = connectedUsers.find( (user) => user.id == socket.id );
         user.username = username;
+        user.avatarColor = avatarColor;
         callback({
             status: 'ok'
         });    
