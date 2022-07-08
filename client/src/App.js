@@ -1,20 +1,18 @@
-import './App.css';
-import io from 'socket.io-client'
-
-let socket;
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-    socket = io.connect('http://localhost:3001')
-} else {
-    socket = io('/');
-}
-
+import { useRecoilValue } from 'recoil';  
+import { usernameState } from './globalState';
+import { socket } from './socketConnection';
+import SignIn from './SignIn';
 
 function App() {
-  return (
-    <div className="App">
-        Hello World!
-    </div>
-  );
+    const username = useRecoilValue(usernameState);
+
+    socket.on('userJoined', newCount => {
+        console.log(newCount)
+    });
+
+    return (
+        <> {username == '' ? <SignIn /> : <div/>} </>
+    );
 }
 
 export default App;
