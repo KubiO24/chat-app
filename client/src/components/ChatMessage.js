@@ -1,20 +1,47 @@
-import { Grid, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import { useRecoilValue } from 'recoil';  
+import { avatarColorState } from '../globalState';
+
+import { Grid, ListItem, ListItemIcon, Avatar, ListItemText } from "@mui/material";
 
 function ChatMessage(props) {
-    let align = 'center';
-    props.sentByMe ? align = 'right' : align = 'left';
-    
+    const avatarColor = useRecoilValue(avatarColorState);
+
     return (
         <ListItem>
+
+        {props.sentByMe ? 
+            <>    
                 <Grid container>
                     <Grid item xs={12}>
-                        <ListItemText align={align} primary={props.message}></ListItemText>
+                        <ListItemText align='right' primary={props.message}></ListItemText>
                     </Grid>
                     <Grid item xs={12}>
-                        <ListItemText align={align} secondary="09:30"></ListItemText>
+                        <ListItemText align='right' secondary="09:30"></ListItemText>
                     </Grid>
                 </Grid>
-            </ListItem>
+
+                <ListItemIcon sx={{ml: 2, mr: -1}}>
+                    <Avatar alt="user" sx={{bgcolor: avatarColor}}/>
+                </ListItemIcon>
+            </>
+        : 
+            <>
+                <ListItemIcon sx={{ml: 1}}>
+                    <Avatar alt="user" sx={{bgcolor: 'red'}}/>
+                </ListItemIcon>
+                 
+                <Grid container>
+                    <Grid item xs={12}>
+                        <ListItemText align='left' primary={props.message}></ListItemText>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <ListItemText align='left' secondary="09:30"></ListItemText>
+                    </Grid>
+                </Grid>
+            </>
+        }
+        </ListItem>
+        
     );
 }
 
