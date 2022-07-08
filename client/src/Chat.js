@@ -27,7 +27,7 @@ function Chat() {
     const [avatarColor, setAvatarColor] = useRecoilState(avatarColorState);
 
     const logout = () => {
-        socket.emit('logout', username);
+        socket.emit('logout');
         setUsername('');
     }
 

@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { useRecoilState } from 'recoil';  
 import { usernameState, avatarColorState } from './globalState';
 import { socket } from './socketConnection';
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import Zoom from '@mui/material/Zoom';
+import Alert from '@mui/material/Alert';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -23,19 +26,20 @@ const colorArray = [
     '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC', 
     '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
     '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680', 
-    '#4D8066', '#809980', '#D9FF40', '#1AFF33', '#999933',
+    '#4D8066', '#809980', '#D6D64B', '#1AFF33', '#999933',
     '#FF3380', '#CCCC00', '#3CD11F', '#4D80CC', '#9900B3', 
     '#E64D66', '#4DB380', '#FF4D4D', '#43D1D1', '#6666FF'
 ];
+const drawnColor = colorArray[Math.floor(Math.random()*colorArray.length)];
+console.log("avatar color: " + drawnColor);
 
 
 function SignIn() {  
     const [username, setUsername] = useRecoilState(usernameState);
     const [avatarColor, setAvatarColor] = useRecoilState(avatarColorState);
+    const [error, setError] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
     
-    const drawnColor = colorArray[Math.floor(Math.random()*colorArray.length)];
-    console.log("avatar color: " + drawnColor);
-
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -48,7 +52,8 @@ function SignIn() {
                 setUsername(formUsername);
                 setAvatarColor(drawnColor);
             }else {
-                console.log(response.message)
+                setError(true)
+                setErrorMsg(response.message)
             }
         });      
     };
@@ -56,6 +61,11 @@ function SignIn() {
 
     return (
         <ThemeProvider theme={theme}>
+            <Container maxWidth="sm" sx={{pt: 1}}>
+                <Zoom in={error}>
+                    <Alert variant="outlined" severity="error" onClose={() => {setError(false)}}>{errorMsg}</Alert>
+                </Zoom>
+            </Container>
             <Container maxWidth="xs">
                 <Box
                     sx={{

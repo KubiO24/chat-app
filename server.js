@@ -30,24 +30,28 @@ io.on('connection', socket => {
 
     socket.on("login", (username, avatarColor, callback) => {
         if( connectedUsers.find(user => user.username == username ) != undefined) {
+            console.log(connectedUsers)
             callback({
                 status: 'error',
                 message: 'User with given username is already connected.'
             })
+        }else {
+            const user = connectedUsers.find( (user) => user.id == socket.id );
+            user.username = username;
+            user.avatarColor = avatarColor;
+            console.log(connectedUsers)
+            callback({
+                status: 'ok'
+            });    
         }
 
-        const user = connectedUsers.find( (user) => user.id == socket.id );
-        user.username = username;
-        user.avatarColor = avatarColor;
-        callback({
-            status: 'ok'
-        });    
+       
     });
 
     io.emit('userJoined', 1);
 
-    socket.on('logout', username => {
-        const user = connectedUsers.find( (user) => user.username == username );
+    socket.on('logout', args => {
+        const user = connectedUsers.find( (user) => user.id == socket.id );
         user.username = '';
     })
 
