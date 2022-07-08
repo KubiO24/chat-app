@@ -10,7 +10,12 @@ export const avatarColorState = atom({
     default: '000000', // default value (aka initial value)
 });
 
-export const loginnedUsersState = atom({
+export const loginnedUsersListState = atom({
     key: 'loginnedUsersState', // unique ID (with respect to other atoms/selectors)
     default: [], // default value (aka initial value)
+});
+
+export const selectedChatState = atom({
+    key: 'selectedChatState', // unique ID (with respect to other atoms/selectors)
+    default: '', // default value (aka initial value)
 });

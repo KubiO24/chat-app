@@ -1,24 +1,29 @@
 import React from "react";
-import { useRecoilState, useRecoilValue } from "recoil";  
-import { usernameState, avatarColorState, loginnedUsersState } from "../globalState";
+import { useRecoilState } from "recoil";  
+import { usernameState, loginnedUsersListState, selectedChatState } from "../globalState";
 import { socket } from '../socketConnection';
 
 import { List, ListItem, ListItemIcon, ListItemText, Avatar } from "@mui/material";
 
 function UsersList() {
     const [username, setUsername] = useRecoilState(usernameState);
-    const [loginnedUsers, setloginnedUsers] = useRecoilState(loginnedUsersState);
+    const [loginnedUsers, setLoginnedUsers] = useRecoilState(loginnedUsersListState);
+    const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
 
     socket.on('loginnedUsersChange', connectedUsers => {
         const loginnedUsers = connectedUsers.filter(user => user.username != username);
-        setloginnedUsers(loginnedUsers);
+        setLoginnedUsers(loginnedUsers);
     })
+
+    const selectChat = (selectedUsername) => {
+        setSelectedChat(selectedUsername)
+    }
 
     return (
         <List>
             {loginnedUsers.map(user => {
                 return (
-                    <ListItem button key={user.username}>
+                    <ListItem button key={user.username} onClick={() => selectChat(user.username)}>
                         <ListItemIcon>
                             <Avatar alt={user.username} sx={{bgcolor: user.avatarColor}} />
                         </ListItemIcon>

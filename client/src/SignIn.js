@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';  
-import { usernameState, avatarColorState, loginnedUsersState } from './globalState';
+import { usernameState, avatarColorState, loginnedUsersListState } from './globalState';
 import { socket } from './socketConnection';
 
 import { Paper, Avatar, Button, Zoom, Alert, TextField, Box, Typography, Container } from "@mui/material";
@@ -24,7 +24,7 @@ console.log("avatar color: " + drawnColor);
 function SignIn() {  
     const [username, setUsername] = useRecoilState(usernameState);
     const [avatarColor, setAvatarColor] = useRecoilState(avatarColorState);
-    const [loginnedUsers, setloginnedUsers] = useRecoilState(loginnedUsersState);
+    const [loginnedUsers, setloginnedUsers] = useRecoilState(loginnedUsersListState);
     
     const [error, setError] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
