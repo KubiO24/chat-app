@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const path = require("path");
 const server = require('http').createServer(app)
 const cors = require('cors');
 const { Server } = require('socket.io');
@@ -15,12 +16,8 @@ const io = new Server(server, {
 })
 
 // if (process.env.NODE_ENV === "production") {
-    app.use(express.static("client/build"));
+    app.use(express.static(path.resolve(__dirname, "./client/build")));
 // }
-    
-app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
 
 let connectedUsers = [];
         
