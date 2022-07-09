@@ -5,8 +5,7 @@
   "main": "server.js",
   "scripts": {
     "build": "cd ./client && npm run build",
-    "start": "npm run install && npm run build && node server",
-    "install": "cd ./client && npm i && cd ../ && npm i",
+    "start": "npm run build && node server",
     "server": "nodemon server",
     "client": "cd ./client && npm run start"
   },
