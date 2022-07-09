@@ -15,7 +15,7 @@ function ChatField() {
     const [buttonDisabled, setbuttonDisabled] = useState(true)
 
     useEffect(() => {
-        if(selectedChat == '') {
+        if(selectedChat.username == '') {
             setbuttonDisabled(true);
             setTextInput('');
             setfieldDisabled(true);
@@ -32,7 +32,7 @@ function ChatField() {
         if(messagesList.length == 0) {
             setMessagesList([
                 {
-                    'username': selectedChat,
+                    'username': selectedChat.username,
                     'messages': [message]
                 }
             ]);
@@ -40,12 +40,12 @@ function ChatField() {
         }
 
         const newMessagesList = messagesList.map(item => {
-            if(item.username == selectedChat) return {'username': item.username, 'messages': [...item.messages, message]};
+            if(item.username == selectedChat.username) return {'username': item.username, 'messages': [...item.messages, message]};
             else return item;
         });
         console.log(newMessagesList)
         setMessagesList(newMessagesList)
-        socket.emit('sendMessage', selectedChat, text);
+        socket.emit('sendMessage', selectedChat.username, text);
     }
 
     const handleTextInputChange = event => {

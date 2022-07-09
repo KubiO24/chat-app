@@ -1,10 +1,11 @@
 import { useRecoilValue } from 'recoil';  
-import { avatarColorState } from '../globalState';
+import { avatarColorState, selectedChatState } from '../globalState';
 
 import { Grid, ListItem, ListItemIcon, Avatar, ListItemText } from "@mui/material";
 
 function ChatMessage(props) {
     const avatarColor = useRecoilValue(avatarColorState);
+    const selectedChat = useRecoilValue(selectedChatState);
 
     return (
         <ListItem>
@@ -27,7 +28,7 @@ function ChatMessage(props) {
         : 
             <>
                 <ListItemIcon sx={{ml: 1}}>
-                    <Avatar alt="user" sx={{bgcolor: 'red'}}/>
+                    <Avatar alt="user" sx={{bgcolor: selectedChat.color}}/>
                 </ListItemIcon>
                  
                 <Grid container>

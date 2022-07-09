@@ -59,10 +59,10 @@ function Chat() {
             
     return (
         <>
-            {selectedChat != '' ?
+            {selectedChat.username != '' ?
                 <List sx={{ height: "85vh", overflowY: "auto"}}>
                     {messagesList.map(item => {
-                        if(item.username != selectedChat) return false;
+                        if(item.username != selectedChat.username) return false;
                         
                         return item.messages.map((message, id) => {
                             return <ChatMessage key={id} message={message.text} sentByMe={message.sentByMe}/>                 

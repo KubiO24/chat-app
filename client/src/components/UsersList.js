@@ -15,15 +15,11 @@ function UsersList() {
         setLoginnedUsers(loginnedUsers);
     })
 
-    const selectChat = (selectedUsername) => {
-        setSelectedChat(selectedUsername)
-    }
-
     return (
         <List>
             {loginnedUsers.map(user => {
                 return (
-                    <ListItem button key={user.username} onClick={() => selectChat(user.username)}>
+                    <ListItem button key={user.username} onClick={() => setSelectedChat({'username': user.username, 'color': user.avatarColor})}>
                         <ListItemIcon>
                             <Avatar alt={user.username} sx={{bgcolor: user.avatarColor}} />
                         </ListItemIcon>
