@@ -18,7 +18,7 @@ function Main() {
 
                 <Divider />
 
-                <Typography component="h3" variant="h6" align="center" sx={{marginTop: 1}}>
+                <Typography component="h3" variant="h6" align="center" color="grey.800" sx={{marginTop: 1}}>
                     Connected users:
                 </Typography>
 

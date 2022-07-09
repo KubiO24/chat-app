@@ -3,7 +3,7 @@ import { socket } from '../socketConnection';
 import { useRecoilState, useRecoilValue } from "recoil";  
 import { loginnedUsersListState, selectedChatState, messagesListState, newMessageState } from "../globalState";
 import ChatMessage from './ChatMessage';
-import { List, listItemAvatarClasses } from "@mui/material";
+import { List, Box, Typography } from "@mui/material";
 
 function Chat() {
     const loginnedUsers = useRecoilValue(loginnedUsersListState);
@@ -71,7 +71,11 @@ function Chat() {
                 </List>
             
             :
-                <List sx={{ height: "85vh", overflowY: "auto"}} />
+                <Box sx={{ height: "85vh", overflowY: "auto"}}>
+                    <Typography component="h3" variant="h5" align='center' mt='40vh' color='grey.400' >
+                        Select user to chat with from user list
+                    </Typography> 
+                </Box>
             }
         </>
         
