@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';  
-import { usernameState, selectedChatState } from '../globalState';
+import { useRecoilState, useRecoilValue } from 'recoil';  
+import { usernameState, selectedChatState, messagesListState } from '../globalState';
 import { socket } from '../socketConnection';
 
 import { Grid, TextField, Fab } from "@mui/material";
@@ -9,6 +9,7 @@ import SendIcon from "@mui/icons-material/Send";
 function ChatField() {
     const username = useRecoilValue(usernameState);
     const selectedChat = useRecoilValue(selectedChatState);
+    const [messagesList, setMessagesList] = useRecoilState(messagesListState);
     const [textInput, setTextInput] = useState('');
     const [fieldDisabled, setfieldDisabled] = useState(false)
     const [buttonDisabled, setbuttonDisabled] = useState(true)
@@ -24,8 +25,27 @@ function ChatField() {
     },[selectedChat])
 
     const sendMessage = () => {
-        const message = textInput.trim();
-        socket.emit('sendMessage', selectedChat, message);
+        const text = textInput.trim();
+
+        const message = {'text': text, 'sentByMe': true};
+
+        if(messagesList.length == 0) {
+            setMessagesList([
+                {
+                    'username': selectedChat,
+                    'messages': [message]
+                }
+            ]);
+            return
+        }
+
+        const newMessagesList = messagesList.map(item => {
+            if(item.username == selectedChat) return {'username': item.username, 'messages': [...item.messages, message]};
+            else return item;
+        });
+        console.log(newMessagesList)
+        setMessagesList(newMessagesList)
+        socket.emit('sendMessage', selectedChat, text);
     }
 
     const handleTextInputChange = event => {

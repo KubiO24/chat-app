@@ -19,3 +19,13 @@ export const selectedChatState = atom({
     key: 'selectedChatState', // unique ID (with respect to other atoms/selectors)
     default: '', // default value (aka initial value)
 });
+
+export const messagesListState = atom({
+    key: 'messagesListState', // unique ID (with respect to other atoms/selectors)
+    default: [], // default value (aka initial value)
+});
+
+export const newMessageState = atom({
+    key: 'newMessageState', // unique ID (with respect to other atoms/selectors)
+    default: {}, // default value (aka initial value)
+});

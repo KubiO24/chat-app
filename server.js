@@ -61,14 +61,19 @@ io.on('connection', socket => {
     socket.on('logout', args => {
         const user = connectedUsers.find( (user) => user.id == socket.id );
         user.username = '';
-        const loginnedUsers = connectedUsers.filter(user => user.username != '');
-        socket.broadcast.emit('loginnedUsersChange', loginnedUsers);
+        updateLoginnedUsers();
     })
 
     socket.on('disconnect', () => {
         connectedUsers = connectedUsers.filter(user => user.id != socket.id);
+        updateLoginnedUsers();
         console.log(`Socket.io disconnected with id: ${socket.id}`);
     })
+
+    const updateLoginnedUsers = () => {
+        const loginnedUsers = connectedUsers.filter(user => user.username != '');
+        socket.broadcast.emit('loginnedUsersChange', loginnedUsers);
+    }
 });
 
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
