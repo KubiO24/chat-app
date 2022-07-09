@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
-// const path = require("path");
+const path = require("path");
 const server = require('http').createServer(app)
 const cors = require('cors');
 const { Server } = require('socket.io');
-const PORT = 3001 || process.env.PORT;
+const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 
@@ -16,7 +16,7 @@ const io = new Server(server, {
 })
 
 
-// app.use(express.static(path.resolve(__dirname, "./client/build")));
+app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 
 let connectedUsers = [];
