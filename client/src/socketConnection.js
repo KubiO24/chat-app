@@ -6,4 +6,6 @@ export let socket;
 //} else {
 //    socket = io('/');
 //}
-socket = io.connect('https://chat-app-jakubkowal.herokuapp.com')
+console.log(process.env.NODE_ENV)
+socket = io('/');
+// socket = io.connect('https://chat-app-jakubkowal.herokuapp.com')
