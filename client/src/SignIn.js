@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRecoilState } from 'recoil';  
+import { useSetRecoilState } from 'recoil';  
 import { usernameState, avatarColorState, loginnedUsersListState } from './globalState';
 import { socket } from './socketConnection';
 
@@ -18,13 +18,11 @@ const colorArray = [
     '#E64D66', '#4DB380', '#FF4D4D', '#43D1D1', '#6666FF'
 ];
 const drawnColor = colorArray[Math.floor(Math.random()*colorArray.length)];
-console.log("avatar color: " + drawnColor);
-
 
 function SignIn() {  
-    const [username, setUsername] = useRecoilState(usernameState);
-    const [avatarColor, setAvatarColor] = useRecoilState(avatarColorState);
-    const [loginnedUsers, setloginnedUsers] = useRecoilState(loginnedUsersListState);
+    const setUsername = useSetRecoilState(usernameState);
+    const setAvatarColor = useSetRecoilState(avatarColorState);
+    const setloginnedUsers = useSetRecoilState(loginnedUsersListState);
     
     const [error, setError] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
@@ -34,13 +32,13 @@ function SignIn() {
         const data = new FormData(event.currentTarget);
         const formUsername = data.get('username').trim();
 
-        if(formUsername == '') return;
+        if(formUsername === '') return;
         
         socket.emit('login', formUsername, drawnColor, (response) => {
-            if(response.status == 'ok') {
+            if(response.status === 'ok') {
                 setUsername(formUsername);
                 setAvatarColor(drawnColor);
-                const loginnedUsers = response.loginnedUsers.filter(user => user.username != formUsername);
+                const loginnedUsers = response.loginnedUsers.filter(user => user.username !== formUsername);
                 setloginnedUsers(loginnedUsers);
             }else {
                 setError(true)

@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';  
-import { usernameState, selectedChatState, messagesListState } from '../globalState';
+import { selectedChatState, messagesListState } from '../globalState';
 import { socket } from '../socketConnection';
 
 import { Grid, TextField, Fab } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 
 function ChatField() {
-    const username = useRecoilValue(usernameState);
     const selectedChat = useRecoilValue(selectedChatState);
     const [messagesList, setMessagesList] = useRecoilState(messagesListState);
     const [textInput, setTextInput] = useState('');
@@ -15,7 +14,7 @@ function ChatField() {
     const [buttonDisabled, setbuttonDisabled] = useState(true)
 
     useEffect(() => {
-        if(selectedChat.username == '') {
+        if(selectedChat.username === undefined) {
             setbuttonDisabled(true);
             setTextInput('');
             setfieldDisabled(true);
@@ -24,44 +23,48 @@ function ChatField() {
         }
     },[selectedChat])
 
-    const sendMessage = () => {
-        const text = textInput.trim();
+    const sendMessage = (event) => {
+        event.preventDefault();
+        if(buttonDisabled) return;
+        
+        const text = textInput.trim(); 
 
         const message = {'text': text, 'sentByMe': true};
 
-        if(messagesList.length == 0) {
-            setMessagesList([
-                {
-                    'username': selectedChat.username,
-                    'messages': [message]
-                }
-            ]);
-            return
-        }
+        // if(messagesList.length == 0) {
+        //     setMessagesList([
+        //         {
+        //             'username': selectedChat.username,
+        //             'messages': [message]
+        //         }
+        //     ]);
+        //     return
+        // }
 
         const newMessagesList = messagesList.map(item => {
-            if(item.username == selectedChat.username) return {'username': item.username, 'messages': [...item.messages, message]};
+            if(item.username === selectedChat.username) return {'username': item.username, 'messages': [...item.messages, message]};
             else return item;
         });
-        console.log(newMessagesList)
         setMessagesList(newMessagesList)
         socket.emit('sendMessage', selectedChat.username, text);
+        setTextInput('');
+        setbuttonDisabled(true);
     }
 
     const handleTextInputChange = event => {
         const text = event.target.value;
         setTextInput(text);
-        if(text.trim() == '') setbuttonDisabled(true)
+        if(text.trim() === '') setbuttonDisabled(true)
         else setbuttonDisabled(false)
     };
 
     return (
-        <Grid container style={{padding: "20px"}}>
+        <Grid container component="form" onSubmit={sendMessage} style={{padding: "20px"}}>
             <Grid item xs={11}>
-                <TextField id="outlined-basic-email" label="Type Something" fullWidth value= {textInput} onChange={handleTextInputChange} disabled={fieldDisabled} />
+                <TextField id="outlined-basic-email" label="Type Something" fullWidth value={textInput} onChange={handleTextInputChange} disabled={fieldDisabled} />
             </Grid>
             <Grid item xs={1} align="right">
-                <Fab onClick={sendMessage} color="primary" aria-label="add" disabled={buttonDisabled}><SendIcon /></Fab>
+                <Fab type="submit" color="primary" aria-label="add" disabled={buttonDisabled}><SendIcon /></Fab>
             </Grid>
         </Grid>
     );

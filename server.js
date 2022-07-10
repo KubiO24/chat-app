@@ -53,7 +53,6 @@ io.on('connection', socket => {
     });
 
     socket.on('sendMessage', (username, message) => {
-        console.log('messageSent')
         const thisUsername = connectedUsers.find(user => user.id == socket.id).username;
         const userId = connectedUsers.find(user => user.username == username).id;
         io.to(userId).emit('receiveMessage', thisUsername, message);

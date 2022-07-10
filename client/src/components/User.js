@@ -1,16 +1,25 @@
-import { useRecoilState, useRecoilValue } from 'recoil';  
-import { usernameState, avatarColorState } from '../globalState';
+import { useRecoilState, useSetRecoilState } from 'recoil';  
+import { usernameState, avatarColorState, loginnedUsersListState, selectedChatState, messagesListState, newMessageState } from '../globalState';
 import { socket } from '../socketConnection';
 
 import { Button, List, ListItem, ListItemIcon, ListItemText, Avatar } from "@mui/material";
 
 function User() {
     const [username, setUsername] = useRecoilState(usernameState);
-    const avatarColor = useRecoilValue(avatarColorState);
+    const [avatarColor, setAvatarColor] = useRecoilState(avatarColorState);
+    const setLoginnedUsersList = useSetRecoilState(loginnedUsersListState);
+    const setSelectedChat = useSetRecoilState(selectedChatState);
+    const setMessagesList = useSetRecoilState(messagesListState);
+    const setNewMessage = useSetRecoilState(newMessageState);
 
     const logout = () => {
         socket.emit('logout');
         setUsername('');
+        setAvatarColor('000000');
+        setLoginnedUsersList([]);
+        setSelectedChat({});
+        setMessagesList([]);
+        setNewMessage({});
     }
 
     return (

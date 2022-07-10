@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { socket } from '../socketConnection';
 import { useRecoilState, useRecoilValue } from "recoil";  
 import { loginnedUsersListState, selectedChatState, messagesListState, newMessageState } from "../globalState";
@@ -10,6 +10,7 @@ function Chat() {
     const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
     const [messagesList, setMessagesList] = useRecoilState(messagesListState);
     const [newMessage, setNewMessage] = useRecoilState(newMessageState);
+    const bottomOfMessages = useRef();
 
     // Connecting or disconnecting user from chat
     useEffect(() => {
@@ -61,9 +62,15 @@ function Chat() {
             else return item;
         });
         setMessagesList(newMessagesList)
+        
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[newMessage])
+
+    useEffect(() => {
+        if(bottomOfMessages.current === undefined) return;
+        bottomOfMessages.current.scrollIntoView({ behavior: 'smooth' });
+    },[messagesList])
             
     return (
         <>
@@ -76,6 +83,7 @@ function Chat() {
                             return <ChatMessage key={id} message={message.text} sentByMe={message.sentByMe}/>                 
                         })
                     })}   
+                    <div ref={bottomOfMessages}></div>
                 </List>
             
             :

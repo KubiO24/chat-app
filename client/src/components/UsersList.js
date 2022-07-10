@@ -1,5 +1,5 @@
 import React from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";  
+import { useRecoilState, useRecoilValue } from "recoil";  
 import { usernameState, loginnedUsersListState, selectedChatState } from "../globalState";
 import { socket } from '../socketConnection';
 
@@ -7,7 +7,7 @@ import { List, ListItem, ListItemIcon, ListItemText, Avatar } from "@mui/materia
 
 function UsersList() {
     const [loginnedUsers, setLoginnedUsers] = useRecoilState(loginnedUsersListState);
-    const setSelectedChat = useSetRecoilState(selectedChatState);
+    const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
     const username = useRecoilValue(usernameState);
 
     socket.on('loginnedUsersChange', connectedUsers => {
@@ -19,7 +19,19 @@ function UsersList() {
         <List>
             {loginnedUsers.map(user => {
                 return (
-                    <ListItem button key={user.username} onClick={() => setSelectedChat({'username': user.username, 'color': user.avatarColor})}>
+                    <ListItem 
+                        key={user.username} 
+                        button 
+                        onClick={() => setSelectedChat({'username': user.username, 'color': user.avatarColor})}
+                        sx={ selectedChat.username === user.username ? {
+                            backgroundColor: 'grey.400',
+
+                            "&:hover": {
+                                backgroundColor: 'grey.400'
+                            }
+                        } : undefined }   
+                        
+                    >
                         <ListItemIcon>
                             <Avatar alt={user.username} sx={{bgcolor: user.avatarColor}} />
                         </ListItemIcon>
