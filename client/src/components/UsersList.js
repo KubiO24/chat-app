@@ -1,17 +1,17 @@
 import React from "react";
-import { useRecoilState } from "recoil";  
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";  
 import { usernameState, loginnedUsersListState, selectedChatState } from "../globalState";
 import { socket } from '../socketConnection';
 
 import { List, ListItem, ListItemIcon, ListItemText, Avatar } from "@mui/material";
 
 function UsersList() {
-    const [username, setUsername] = useRecoilState(usernameState);
     const [loginnedUsers, setLoginnedUsers] = useRecoilState(loginnedUsersListState);
-    const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
+    const setSelectedChat = useSetRecoilState(selectedChatState);
+    const username = useRecoilValue(usernameState);
 
     socket.on('loginnedUsersChange', connectedUsers => {
-        const loginnedUsers = connectedUsers.filter(user => user.username != username);
+        const loginnedUsers = connectedUsers.filter(user => user.username !== username);
         setLoginnedUsers(loginnedUsers);
     })
 

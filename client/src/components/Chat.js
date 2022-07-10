@@ -15,10 +15,10 @@ function Chat() {
     useEffect(() => {
         const newMessagesList = loginnedUsers.map(user => {
             const index = messagesList.findIndex(item => {
-                return item.username == user.username;
+                return item.username === user.username;
             });
 
-            if(index == -1) {
+            if(index === -1) {
                 return {'username': user.username, 'messages': []}
             }else {
                 return messagesList[index];
@@ -26,21 +26,25 @@ function Chat() {
         });
         console.log(newMessagesList)
         setMessagesList(newMessagesList)
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[loginnedUsers])
 
     
     useEffect(() => {
         socket.on('receiveMessage', (senderUsername, message) => {
             setNewMessage({'username': senderUsername, 'message': message})
-        });                      
+        });            
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps          
     },[socket])
             
     useEffect(() => {   
-        if(newMessage.username == undefined || newMessage.message == undefined) return;
+        if(newMessage.username === undefined || newMessage.message === undefined) return;
 
         const message = {'text': newMessage.message, 'sentByMe': false};
 
-        if(messagesList.length == 0) {
+        if(messagesList.length === 0) {
             setMessagesList([
                 {
                     'username': newMessage.username,
@@ -51,18 +55,20 @@ function Chat() {
         }
 
         const newMessagesList = messagesList.map(item => {
-            if(item.username == newMessage.username) return {'username': item.username, 'messages': [...item.messages, message]};
+            if(item.username === newMessage.username) return {'username': item.username, 'messages': [...item.messages, message]};
             else return item;
         });
         setMessagesList(newMessagesList)
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[newMessage])
             
     return (
         <>
-            {selectedChat.username != undefined && selectedChat.username != '' ?
+            {selectedChat.username !== undefined && selectedChat.username !== '' ?
                 <List sx={{ height: "85vh", overflowY: "auto"}}>
                     {messagesList.map(item => {
-                        if(item.username != selectedChat.username) return false;
+                        if(item.username !== selectedChat.username) return false;
                         
                         return item.messages.map((message, id) => {
                             return <ChatMessage key={id} message={message.text} sentByMe={message.sentByMe}/>                 
