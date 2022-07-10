@@ -7,7 +7,7 @@ import { List, Box, Typography } from "@mui/material";
 
 function Chat() {
     const loginnedUsers = useRecoilValue(loginnedUsersListState);
-    const selectedChat = useRecoilValue(selectedChatState);
+    const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
     const [messagesList, setMessagesList] = useRecoilState(messagesListState);
     const [newMessage, setNewMessage] = useRecoilState(newMessageState);
 
@@ -24,7 +24,9 @@ function Chat() {
                 return messagesList[index];
             }
         });
-        console.log(newMessagesList)
+
+        if(newMessagesList.find(user => user.username === selectedChat.username) === undefined) setSelectedChat({});
+
         setMessagesList(newMessagesList)
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
