@@ -10,7 +10,7 @@
     "server": "node server",
     "client": "cd ./client && npm run start",
     "heroku-postbuild": "cd ./client && npm install && npm run build",
-    "devServer": "nodemone server"
+    "devServer": "nodemon server"
   },
   "repository": {
     "type": "git",

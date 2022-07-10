@@ -59,7 +59,7 @@ function Chat() {
             
     return (
         <>
-            {selectedChat.username != '' ?
+            {selectedChat.username != undefined && selectedChat.username != '' ?
                 <List sx={{ height: "85vh", overflowY: "auto"}}>
                     {messagesList.map(item => {
                         if(item.username != selectedChat.username) return false;
