@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react';
-import { socket } from '../socketConnection';
 import { useRecoilState, useRecoilValue } from "recoil";  
 import { loginnedUsersListState, selectedChatState, messagesListState, newMessageState } from "../globalState";
-import ChatMessage from './ChatMessage';
+import { socket } from '../socketConnection';
+import moment from 'moment';
 import { List, Typography } from "@mui/material";
+import ChatMessage from './ChatMessage';
 
 function Chat() {
     const loginnedUsers = useRecoilValue(loginnedUsersListState);
@@ -35,6 +36,7 @@ function Chat() {
     },[loginnedUsers])
 
     
+    // Receiving messaged from other users
     useEffect(() => {
         socket.on('receiveMessage', (senderUsername, message) => {
             setNewMessage({'username': senderUsername, 'message': message})
@@ -46,7 +48,7 @@ function Chat() {
     useEffect(() => {   
         if(newMessage.username === undefined || newMessage.message === undefined) return;
 
-        const message = {'text': newMessage.message, 'sentByMe': false};
+        const message = {'text': newMessage.message, date: moment().format(), 'sentByMe': false};
 
         if(messagesList.length === 0) {
             setMessagesList([
@@ -91,7 +93,7 @@ function Chat() {
                             )
                         }else {
                             return item.messages.map((message, id) => {
-                                return <ChatMessage key={id} message={message.text} sentByMe={message.sentByMe}/>
+                                return <ChatMessage key={id} message={message.text} date={message.date} sentByMe={message.sentByMe}/>
                             })
                         }
                     })}   

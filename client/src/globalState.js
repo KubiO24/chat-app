@@ -1,31 +1,31 @@
 import { atom } from 'recoil';  
 
 export const usernameState = atom({
-    key: 'usernameState', // unique ID (with respect to other atoms/selectors)
-    default: '', // default value (aka initial value)
+    key: 'usernameState',
+    default: '',
 });
 
 export const avatarColorState = atom({
-    key: 'avatarColorState', // unique ID (with respect to other atoms/selectors)
-    default: '000000', // default value (aka initial value)
+    key: 'avatarColorState',
+    default: '000000',
 });
 
 export const loginnedUsersListState = atom({
-    key: 'loginnedUsersState', // unique ID (with respect to other atoms/selectors)
-    default: [], // default value (aka initial value)
+    key: 'loginnedUsersState',
+    default: [],
 });
 
 export const selectedChatState = atom({
-    key: 'selectedChatState', // unique ID (with respect to other atoms/selectors)
-    default: {}, // default value (aka initial value)
+    key: 'selectedChatState',
+    default: {},
 });
 
 export const messagesListState = atom({
-    key: 'messagesListState', // unique ID (with respect to other atoms/selectors)
-    default: [], // default value (aka initial value)
+    key: 'messagesListState',
+    default: [],
 });
 
 export const newMessageState = atom({
-    key: 'newMessageState', // unique ID (with respect to other atoms/selectors)
-    default: {}, // default value (aka initial value)
+    key: 'newMessageState',
+    default: {},
 });

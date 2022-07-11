@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil';  
 import { avatarColorState, selectedChatState } from '../globalState';
-
-import { Grid, ListItem, ListItemIcon, Avatar, ListItemText, Box } from "@mui/material";
+import moment from 'moment';
+import { ListItem, ListItemIcon, Avatar, ListItemText, Box } from "@mui/material";
 
 function ChatMessage(props) {
     const avatarColor = useRecoilValue(avatarColorState);
@@ -23,7 +23,7 @@ function ChatMessage(props) {
                 >
                     <Box pl={3}>
                         <ListItemText align='right' primary={props.message} sx={{overflowWrap: 'anywhere'}}></ListItemText>
-                        <ListItemText align='right' secondary="09:30" sx={{mb: '2px'}}></ListItemText>
+                        <ListItemText align='right' secondary={moment(props.date).format('HH:mm')} sx={{mb: '2px'}}></ListItemText>
                     </Box>
 
                     <ListItemIcon sx={{ml: 2}}>
@@ -48,7 +48,7 @@ function ChatMessage(props) {
                     
                     <Box pr={3} >
                         <ListItemText align='left' primary={props.message} sx={{overflowWrap: 'anywhere'}} ></ListItemText>
-                        <ListItemText align='left' secondary="09:30" sx={{mb: '2px'}}></ListItemText>
+                        <ListItemText align='left' secondary={moment(props.date).format('HH:mm')} sx={{mb: '2px'}}></ListItemText>
                     </Box>
                 </Box>
             }

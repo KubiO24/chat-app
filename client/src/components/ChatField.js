@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';  
 import { selectedChatState, messagesListState, newMessageState } from '../globalState';
 import { socket } from '../socketConnection';
-
+import moment from 'moment';
 import { Grid, TextField, Fab } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 
@@ -30,7 +30,7 @@ function ChatField() {
         
         const text = textInput.trim(); 
 
-        const message = {'text': text, 'sentByMe': true};
+        const message = {'text': text, date: moment().format(), 'sentByMe': true};
 
         const newMessagesList = messagesList.map(item => {
             if(item.username === selectedChat.username) return {'username': item.username, 'messages': [...item.messages, message]};

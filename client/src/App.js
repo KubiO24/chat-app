@@ -8,7 +8,7 @@ function App() {
     const username = useRecoilValue(usernameState);
 
     return (
-        <> {username == '' ? <SignIn /> : <Main />} </>
+        <> {username === '' ? <SignIn /> : <Main />} </>
     );
 }
 
