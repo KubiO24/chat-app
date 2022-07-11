@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { socket } from '../socketConnection';
 import { useRecoilState, useRecoilValue } from "recoil";  
 import { loginnedUsersListState, selectedChatState, messagesListState, newMessageState } from "../globalState";
@@ -10,6 +10,7 @@ function Chat() {
     const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
     const [messagesList, setMessagesList] = useRecoilState(messagesListState);
     const [newMessage, setNewMessage] = useRecoilState(newMessageState);
+    const [userMessages, setUserMessages] = useState([])
     const bottomOfMessages = useRef();
 
     // Connecting or disconnecting user from chat
@@ -68,32 +69,44 @@ function Chat() {
     },[newMessage])
 
     useEffect(() => {
+        setUserMessages(messagesList.filter(item => item.username === selectedChat.username));
+        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[messagesList])
+
+    useEffect(() => {
         if(bottomOfMessages.current === undefined) return;
         bottomOfMessages.current.scrollIntoView({ behavior: 'smooth' });
-    },[messagesList])
+        console.log(userMessages)
+    },[userMessages])
             
     return (
-        <>
+        <List sx={{ height: "85vh", overflowY: "auto"}}>
             {selectedChat.username !== undefined && selectedChat.username !== '' ?
-                <List sx={{ height: "85vh", overflowY: "auto"}}>
+                <>
                     {messagesList.map(item => {
                         if(item.username !== selectedChat.username) return false;
                         
-                        return item.messages.map((message, id) => {
-                            return <ChatMessage key={id} message={message.text} sentByMe={message.sentByMe}/>                 
-                        })
+                        if(item.messages.length === 0) {
+                            return (
+                                <Typography key={'empty'} component="h5" variant="h5" align='center' mt='40vh' color='grey.400' >
+                                    This conversation is empty
+                                </Typography>
+                            )
+                        }else {
+                            return item.messages.map((message, id) => {
+                                return <ChatMessage key={id} message={message.text} sentByMe={message.sentByMe}/>
+                            })
+                        }
                     })}   
                     <div ref={bottomOfMessages}></div>
-                </List>
-            
+                </>
             :
-                <Box sx={{ height: "85vh", overflowY: "auto"}}>
-                    <Typography component="h3" variant="h5" align='center' mt='40vh' color='grey.400' >
-                        Select user to chat with from user list
-                    </Typography> 
-                </Box>
+                <Typography component="h5" variant="h5" align='center' mt='40vh' color='grey.400' >
+                    Select user to chat with from user list
+                </Typography> 
             }
-        </>
+        </List>
         
     );
 }
