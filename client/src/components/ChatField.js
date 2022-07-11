@@ -11,16 +11,14 @@ function ChatField() {
     const setNewMessage = useSetRecoilState(newMessageState)
     const [messagesList, setMessagesList] = useRecoilState(messagesListState);
     const [textInput, setTextInput] = useState('');
-    const [fieldDisabled, setfieldDisabled] = useState(false)
     const [buttonDisabled, setbuttonDisabled] = useState(true)
 
     useEffect(() => {
         if(selectedChat.username === undefined) {
             setbuttonDisabled(true);
             setTextInput('');
-            setfieldDisabled(true);
         }else {
-            setfieldDisabled(false);
+            setbuttonDisabled(false);
         }
     },[selectedChat])
 
@@ -53,7 +51,7 @@ function ChatField() {
     return (
         <Grid container component="form" onSubmit={sendMessage} style={{padding: '25px'}}>
             <Grid item xs={11}>
-                <TextField id="outlined-basic-email" label="Type Something" fullWidth value={textInput} onChange={handleTextInputChange} disabled={fieldDisabled} />
+                <TextField id="outlined-basic-email" label="Type Something" fullWidth value={textInput} onChange={handleTextInputChange} />
             </Grid>
             <Grid item xs={1} align="right">
                 <Fab type="submit" color="primary" aria-label="add" disabled={buttonDisabled}><SendIcon /></Fab>
