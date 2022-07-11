@@ -1,3 +1,5 @@
+import { useRecoilValue } from "recoil";
+import { selectedChatState } from "./globalState";
 import User from './components/User';
 import SearchBar from './components/SearchBar';
 import UsersList from './components/UsersList';
@@ -7,6 +9,7 @@ import ChatField from './components/ChatField';
 import { Grid, Divider, Typography } from "@mui/material";
 
 function Main() {
+    const selectedChat = useRecoilValue(selectedChatState);
     return (
         <Grid container sx={{height: "100vh", bgColor: 'white'}}>
             <Grid item xs={3} sx={{borderRight: "1px solid #e0e0e0"}}>
@@ -26,10 +29,18 @@ function Main() {
             </Grid>
             <Grid item xs={9}>
                 <Chat />
+            {selectedChat.username !== undefined && selectedChat.username !== '' ?
+                <>
+                    <Divider />
 
-                <Divider />
+                    <ChatField />
+                </>
+            :
+                undefined
+            }
+                
 
-                <ChatField />
+                
             </Grid>
         </Grid>
     );
