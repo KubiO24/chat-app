@@ -1,16 +1,15 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { socket } from '../socketConnection';
 import { useRecoilState, useRecoilValue } from "recoil";  
 import { loginnedUsersListState, selectedChatState, messagesListState, newMessageState } from "../globalState";
 import ChatMessage from './ChatMessage';
-import { List, Box, Typography } from "@mui/material";
+import { List, Typography } from "@mui/material";
 
 function Chat() {
     const loginnedUsers = useRecoilValue(loginnedUsersListState);
     const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
     const [messagesList, setMessagesList] = useRecoilState(messagesListState);
     const [newMessage, setNewMessage] = useRecoilState(newMessageState);
-    const [userMessages, setUserMessages] = useState([])
     const bottomOfMessages = useRef();
 
     // Connecting or disconnecting user from chat
@@ -29,6 +28,7 @@ function Chat() {
 
         if(newMessagesList.find(user => user.username === selectedChat.username) === undefined) setSelectedChat({});
 
+        setNewMessage({type: 'userJoined'})
         setMessagesList(newMessagesList)
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -40,7 +40,7 @@ function Chat() {
             setNewMessage({'username': senderUsername, 'message': message})
         });            
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps          
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[socket])
             
     useEffect(() => {   
@@ -64,24 +64,20 @@ function Chat() {
         });
         setMessagesList(newMessagesList)
         
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[newMessage])
 
-    useEffect(() => {
-        setUserMessages(messagesList.filter(item => item.username === selectedChat.username));
-        
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[messagesList])
 
     useEffect(() => {
         if(bottomOfMessages.current === undefined) return;
-        bottomOfMessages.current.scrollIntoView({ behavior: 'smooth' });
-        console.log(userMessages)
-    },[userMessages])
+        if(newMessage.type === 'userJoined') return
+        if(newMessage.type === 'sentByMe' || newMessage.username === selectedChat.username) bottomOfMessages.current.scrollIntoView({ behavior: 'smooth' });
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[messagesList])
             
     return (
-        <List sx={{ height: "85vh", overflowY: "auto"}}>
+        <List sx={{ height: "84vh", overflowY: "auto", mt:'20px'}}>
             {selectedChat.username !== undefined && selectedChat.username !== '' ?
                 <>
                     {messagesList.map(item => {

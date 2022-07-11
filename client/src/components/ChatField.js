@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';  
-import { selectedChatState, messagesListState } from '../globalState';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';  
+import { selectedChatState, messagesListState, newMessageState } from '../globalState';
 import { socket } from '../socketConnection';
 
 import { Grid, TextField, Fab } from "@mui/material";
@@ -8,6 +8,7 @@ import SendIcon from "@mui/icons-material/Send";
 
 function ChatField() {
     const selectedChat = useRecoilValue(selectedChatState);
+    const setNewMessage = useSetRecoilState(newMessageState)
     const [messagesList, setMessagesList] = useRecoilState(messagesListState);
     const [textInput, setTextInput] = useState('');
     const [fieldDisabled, setfieldDisabled] = useState(false)
@@ -31,20 +32,11 @@ function ChatField() {
 
         const message = {'text': text, 'sentByMe': true};
 
-        // if(messagesList.length == 0) {
-        //     setMessagesList([
-        //         {
-        //             'username': selectedChat.username,
-        //             'messages': [message]
-        //         }
-        //     ]);
-        //     return
-        // }
-
         const newMessagesList = messagesList.map(item => {
             if(item.username === selectedChat.username) return {'username': item.username, 'messages': [...item.messages, message]};
             else return item;
         });
+        setNewMessage({type: 'sentByMe'})
         setMessagesList(newMessagesList)
         socket.emit('sendMessage', selectedChat.username, text);
         setTextInput('');
@@ -59,7 +51,7 @@ function ChatField() {
     };
 
     return (
-        <Grid container component="form" onSubmit={sendMessage} style={{padding: "20px"}}>
+        <Grid container component="form" onSubmit={sendMessage} style={{padding: '25px'}}>
             <Grid item xs={11}>
                 <TextField id="outlined-basic-email" label="Type Something" fullWidth value={textInput} onChange={handleTextInputChange} disabled={fieldDisabled} />
             </Grid>
