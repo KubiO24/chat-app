@@ -20,7 +20,6 @@ function UsersList() {
 
     useEffect(() => {
         setFilteredUsers(loginnedUsers.filter(item => item.username.toLowerCase().includes(userFilter.toLowerCase())))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[loginnedUsers, userFilter])
 
     const selectChat = (data) => {

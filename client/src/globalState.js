@@ -37,5 +37,5 @@ export const unreadMessagesState = atom({
 
 export const userFilterState = atom({
     key: 'userFilterState',
-    default: [],
+    default: '',
 });
