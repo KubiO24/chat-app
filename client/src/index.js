@@ -5,6 +5,9 @@ import reportWebVitals from './reportWebVitals';
 import { RecoilRoot } from 'recoil';  
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+document.title = "Chat App"
+
 root.render(
     <RecoilRoot>
         <App />

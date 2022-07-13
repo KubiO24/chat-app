@@ -29,3 +29,8 @@ export const newMessageState = atom({
     key: 'newMessageState',
     default: {},
 });
+
+export const unreadMessagesState = atom({
+    key: 'unreadMessagesState',
+    default: [],
+});

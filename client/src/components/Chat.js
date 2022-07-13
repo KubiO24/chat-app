@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useRecoilState, useRecoilValue } from "recoil";  
-import { loginnedUsersListState, selectedChatState, messagesListState, newMessageState } from "../globalState";
+import { loginnedUsersListState, selectedChatState, messagesListState, newMessageState, unreadMessagesState } from "../globalState";
 import { socket } from '../socketConnection';
 import moment from 'moment';
 import { List, Typography } from "@mui/material";
@@ -11,6 +11,7 @@ function Chat() {
     const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
     const [messagesList, setMessagesList] = useRecoilState(messagesListState);
     const [newMessage, setNewMessage] = useRecoilState(newMessageState);
+    const [unreadMessages, setUnreadMessages] = useRecoilState(unreadMessagesState);
     const bottomOfMessages = useRef();
 
     // Connecting or disconnecting user from chat
@@ -64,8 +65,10 @@ function Chat() {
             if(item.username === newMessage.username) return {'username': item.username, 'messages': [...item.messages, message]};
             else return item;
         });
+
         setMessagesList(newMessagesList)
-        
+        if(!unreadMessages.includes(newMessage.username)) setUnreadMessages([...unreadMessages, newMessage.username]);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[newMessage])
 

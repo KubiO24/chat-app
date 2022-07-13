@@ -31,7 +31,6 @@ io.on('connection', socket => {
 
     socket.on("login", (username, avatarColor, callback) => {
         if( connectedUsers.find(user => user.username == username ) != undefined) {
-            console.log(connectedUsers)
             callback({
                 status: 'error',
                 message: 'User with given username is already connected.'
