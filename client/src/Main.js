@@ -29,18 +29,16 @@ function Main() {
             </Grid>
             <Grid item xs={9}>
                 <Chat />
-            {selectedChat.username !== undefined && selectedChat.username !== '' ?
-                <>
-                    <Divider />
-
-                    <ChatField />
-                </>
-            :
-                undefined
-            }
                 
+                {selectedChat.username !== undefined && selectedChat.username !== '' ?
+                    <>
+                        <Divider />
 
-                
+                        <ChatField />
+                    </>
+                :
+                    undefined
+                }         
             </Grid>
         </Grid>
     );

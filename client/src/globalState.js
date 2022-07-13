@@ -34,3 +34,8 @@ export const unreadMessagesState = atom({
     key: 'unreadMessagesState',
     default: [],
 });
+
+export const userFilterState = atom({
+    key: 'userFilterState',
+    default: [],
+});

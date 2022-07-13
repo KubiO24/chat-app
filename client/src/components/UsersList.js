@@ -1,5 +1,6 @@
-import { useRecoilState, useRecoilValue } from "recoil";  
-import { usernameState, loginnedUsersListState, selectedChatState, unreadMessagesState } from "../globalState";
+import { useState, useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from "recoil";
+import { usernameState, loginnedUsersListState, selectedChatState, unreadMessagesState, userFilterState } from "../globalState";
 import { socket } from '../socketConnection';
 
 import { List, ListItem, ListItemIcon, ListItemText, Avatar } from "@mui/material";
@@ -9,11 +10,18 @@ function UsersList() {
     const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState);
     const [unreadMessages, setUnreadMessages] = useRecoilState(unreadMessagesState);
     const username = useRecoilValue(usernameState);
+    const userFilter = useRecoilValue(userFilterState);
+    const [filteredUsers, setFilteredUsers] = useState([]);
 
     socket.on('loginnedUsersChange', connectedUsers => {
         const loginnedUsers = connectedUsers.filter(user => user.username !== username);
         setLoginnedUsers(loginnedUsers);
     })
+
+    useEffect(() => {
+        setFilteredUsers(loginnedUsers.filter(item => item.username.toLowerCase().includes(userFilter.toLowerCase())))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[loginnedUsers, userFilter])
 
     const selectChat = (data) => {
         setSelectedChat(data);
@@ -22,7 +30,7 @@ function UsersList() {
 
     return (
         <List>
-            {loginnedUsers.map(user => {
+            {filteredUsers.map(user => {
                 return (
                     <ListItem 
                         key={user.username} 
