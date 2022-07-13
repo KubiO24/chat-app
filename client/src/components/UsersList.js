@@ -39,10 +39,10 @@ function UsersList() {
                             } 
                             : unreadMessages.includes(user.username) ? 
                             {
-                                backgroundColor: '#ff8080',
+                                backgroundColor: '#ff9999',
 
                                 "&:hover": {
-                                    backgroundColor: '#ff6060'
+                                    backgroundColor: '#ff8080'
                                 }
                             }
                             : undefined   

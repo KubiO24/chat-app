@@ -67,7 +67,7 @@ function Chat() {
         });
 
         setMessagesList(newMessagesList)
-        if(!unreadMessages.includes(newMessage.username)) setUnreadMessages([...unreadMessages, newMessage.username]);
+        if(!unreadMessages.includes(newMessage.username) && selectedChat.username != newMessage.username) setUnreadMessages([...unreadMessages, newMessage.username]);
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[newMessage])
