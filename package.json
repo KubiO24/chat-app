@@ -8,8 +8,6 @@
     "main": "server.js",
     "scripts": {
         "server": "node server",
-        "client": "cd ./client && npm run start",
-        "heroku-postbuild": "npm install && npm run server && cd ./client && npm install && npm run build",
         "devServer": "nodemon server"
     },
     "repository": {
