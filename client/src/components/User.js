@@ -1,8 +1,23 @@
-import { useRecoilState, useSetRecoilState } from 'recoil';  
-import { usernameState, avatarColorState, loginnedUsersListState, selectedChatState, messagesListState, newMessageState } from '../globalState';
-import { socket } from '../socketConnection';
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+    usernameState,
+    avatarColorState,
+    loginnedUsersListState,
+    selectedChatState,
+    messagesListState,
+    newMessageState,
+} from "../globalState";
+import { socket } from "../socketConnection";
 
-import { Button, List, ListItem, ListItemIcon, ListItemText, Avatar } from "@mui/material";
+import {
+    Grid,
+    Button,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Avatar,
+} from "@mui/material";
 
 function User() {
     const [username, setUsername] = useRecoilState(usernameState);
@@ -13,35 +28,44 @@ function User() {
     const setNewMessage = useSetRecoilState(newMessageState);
 
     const logout = () => {
-        socket.emit('logout');
-        setUsername('');
-        setAvatarColor('000000');
+        socket.emit("logout");
+        setUsername("");
+        setAvatarColor("000000");
         setLoginnedUsersList([]);
         setSelectedChat({});
         setMessagesList([]);
         setNewMessage({});
-    }
+    };
 
     return (
-        <List>
-            <ListItem >
-                <ListItemIcon>
-                    <Avatar alt="user" sx={{bgcolor: avatarColor}}/>
-                </ListItemIcon>
-                <ListItemText primary={username}></ListItemText>
-                <ListItemText align="right">
+        <>
+            <List sx={{ width: "100%" }}>
+                <ListItem>
+                    <ListItemIcon sc={{ maxWidth: "10%" }}>
+                        <Avatar alt="user" sx={{ bgcolor: avatarColor }} />
+                    </ListItemIcon>
+
+                    <ListItemText
+                        align="left"
+                        primary={username}
+                        sx={{
+                            overflow: "hidden",
+                        }}
+                    />
+
                     <Button
                         type="submit"
                         size="medium"
                         variant="contained"
                         color="error"
                         onClick={logout}
+                        sx={{ paddingX: 3 }}
                     >
                         Logout
                     </Button>
-                </ListItemText> 
-            </ListItem>
-        </List>
+                </ListItem>
+            </List>
+        </>
     );
 }
 
