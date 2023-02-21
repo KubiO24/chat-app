@@ -1,62 +1,89 @@
-import { useState, useEffect } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';  
-import { selectedChatState, messagesListState, newMessageState } from '../globalState';
-import { socket } from '../socketConnection';
-import moment from 'moment';
-import { Grid, TextField, Fab } from "@mui/material";
+import { useState, useEffect } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { selectedChatState, messagesListState, newMessageState } from "../globalState";
+import { socket } from "../socketConnection";
+import moment from "moment";
+import { Box, TextField, Fab } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 
 function ChatField() {
     const selectedChat = useRecoilValue(selectedChatState);
-    const setNewMessage = useSetRecoilState(newMessageState)
+    const setNewMessage = useSetRecoilState(newMessageState);
     const [messagesList, setMessagesList] = useRecoilState(messagesListState);
-    const [textInput, setTextInput] = useState('');
-    const [buttonDisabled, setbuttonDisabled] = useState(true)
+    const [textInput, setTextInput] = useState("");
+    const [buttonDisabled, setbuttonDisabled] = useState(true);
 
     useEffect(() => {
-        if(selectedChat.username === undefined) {
+        if (selectedChat.username === undefined) {
             setbuttonDisabled(true);
-            setTextInput('');
-        }else {
+            setTextInput("");
+        } else {
             setbuttonDisabled(false);
         }
-    },[selectedChat])
+    }, [selectedChat]);
 
     const sendMessage = (event) => {
         event.preventDefault();
-        if(buttonDisabled) return;
-        
-        const text = textInput.trim(); 
+        if (buttonDisabled) return;
 
-        const message = {'text': text, date: moment().format(), 'sentByMe': true};
+        const text = textInput.trim();
 
-        const newMessagesList = messagesList.map(item => {
-            if(item.username === selectedChat.username) return {'username': item.username, 'messages': [...item.messages, message]};
+        const message = { text: text, date: moment().format(), sentByMe: true };
+
+        const newMessagesList = messagesList.map((item) => {
+            if (item.username === selectedChat.username)
+                return { username: item.username, messages: [...item.messages, message] };
             else return item;
         });
-        setNewMessage({type: 'sentByMe'})
-        setMessagesList(newMessagesList)
-        socket.emit('sendMessage', selectedChat.username, text);
-        setTextInput('');
+        setNewMessage({ type: "sentByMe" });
+        setMessagesList(newMessagesList);
+        socket.emit("sendMessage", selectedChat.username, text);
+        setTextInput("");
         setbuttonDisabled(true);
-    }
+    };
 
-    const handleTextInputChange = event => {
+    const handleTextInputChange = (event) => {
         const text = event.target.value;
         setTextInput(text);
-        if(text.trim() === '') setbuttonDisabled(true)
-        else setbuttonDisabled(false)
+        if (text.trim() === "") setbuttonDisabled(true);
+        else setbuttonDisabled(false);
     };
 
     return (
-        <Grid container component="form" onSubmit={sendMessage} style={{padding: '25px'}}>
-            <Grid item xs={11}>
-                <TextField id="outlined-basic-email" label="Type Something" fullWidth value={textInput} onChange={handleTextInputChange} />
-            </Grid>
-            <Grid item xs={1} align="right">
-                <Fab type="submit" color="primary" aria-label="add" disabled={buttonDisabled}><SendIcon /></Fab>
-            </Grid>
-        </Grid>
+        <Box
+            component="form"
+            onSubmit={sendMessage}
+            align="left"
+            sx={{
+                padding: "25px",
+                display: "inline-flex",
+                justifyContent: "left",
+                width: { xs: "100%", sm: "100%", md: "95%", lg: "100%" },
+                overflow: "hidden",
+            }}
+        >
+            <Box sx={{ width: "90%" }}>
+                <TextField
+                    id="outlined-basic-email"
+                    label="Type Something"
+                    fullWidth
+                    value={textInput}
+                    onChange={handleTextInputChange}
+                />
+            </Box>
+            <Box
+                sx={{
+                    width: { xs: "30%", sm: "20%", md: "10%" },
+                    display: "flex",
+                    justifyContent: "left",
+                    marginLeft: "10px",
+                }}
+            >
+                <Fab type="submit" color="primary" aria-label="add" disabled={buttonDisabled}>
+                    <SendIcon />
+                </Fab>
+            </Box>
+        </Box>
     );
 }
 

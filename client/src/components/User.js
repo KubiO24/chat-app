@@ -49,6 +49,7 @@ function User() {
                         align="left"
                         primary={username}
                         sx={{
+                            marginRight: 1,
                             overflow: "hidden",
                         }}
                     />

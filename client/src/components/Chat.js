@@ -1,10 +1,16 @@
-import { useEffect, useRef } from 'react';
-import { useRecoilState, useRecoilValue } from "recoil";  
-import { loginnedUsersListState, selectedChatState, messagesListState, newMessageState, unreadMessagesState } from "../globalState";
-import { socket } from '../socketConnection';
-import moment from 'moment';
+import { useEffect, useRef } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+    loginnedUsersListState,
+    selectedChatState,
+    messagesListState,
+    newMessageState,
+    unreadMessagesState,
+} from "../globalState";
+import { socket } from "../socketConnection";
+import moment from "moment";
 import { List, Typography } from "@mui/material";
-import ChatMessage from './ChatMessage';
+import ChatMessage from "./ChatMessage";
 
 function Chat() {
     const loginnedUsers = useRecoilValue(loginnedUsersListState);
@@ -16,99 +22,115 @@ function Chat() {
 
     // Connecting or disconnecting user from chat
     useEffect(() => {
-        const newMessagesList = loginnedUsers.map(user => {
-            const index = messagesList.findIndex(item => {
+        const newMessagesList = loginnedUsers.map((user) => {
+            const index = messagesList.findIndex((item) => {
                 return item.username === user.username;
             });
 
-            if(index === -1) {
-                return {'username': user.username, 'messages': []}
-            }else {
+            if (index === -1) {
+                return { username: user.username, messages: [] };
+            } else {
                 return messagesList[index];
             }
         });
 
-        if(newMessagesList.find(user => user.username === selectedChat.username) === undefined) setSelectedChat({});
+        if (newMessagesList.find((user) => user.username === selectedChat.username) === undefined) setSelectedChat({});
 
-        setNewMessage({type: 'userJoined'})
-        setMessagesList(newMessagesList)
+        setNewMessage({ type: "userJoined" });
+        setMessagesList(newMessagesList);
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[loginnedUsers])
+    }, [loginnedUsers]);
 
-    
     // Receiving messaged from other users
     useEffect(() => {
-        socket.on('receiveMessage', (senderUsername, message) => {
-            setNewMessage({'username': senderUsername, 'message': message})
-        });            
+        socket.on("receiveMessage", (senderUsername, message) => {
+            setNewMessage({ username: senderUsername, message: message });
+        });
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[socket])
-            
-    useEffect(() => {   
-        if(newMessage.username === undefined || newMessage.message === undefined) return;
+    }, [socket]);
 
-        const message = {'text': newMessage.message, date: moment().format(), 'sentByMe': false};
+    useEffect(() => {
+        if (newMessage.username === undefined || newMessage.message === undefined) return;
 
-        if(messagesList.length === 0) {
+        const message = { text: newMessage.message, date: moment().format(), sentByMe: false };
+
+        if (messagesList.length === 0) {
             setMessagesList([
                 {
-                    'username': newMessage.username,
-                    'messages': [message]
-                }
+                    username: newMessage.username,
+                    messages: [message],
+                },
             ]);
-            return
+            return;
         }
 
-        const newMessagesList = messagesList.map(item => {
-            if(item.username === newMessage.username) return {'username': item.username, 'messages': [...item.messages, message]};
+        const newMessagesList = messagesList.map((item) => {
+            if (item.username === newMessage.username)
+                return { username: item.username, messages: [...item.messages, message] };
             else return item;
         });
 
-        setMessagesList(newMessagesList)
-        if(!unreadMessages.includes(newMessage.username) && selectedChat.username !== newMessage.username) setUnreadMessages([...unreadMessages, newMessage.username]);
+        setMessagesList(newMessagesList);
+        if (!unreadMessages.includes(newMessage.username) && selectedChat.username !== newMessage.username)
+            setUnreadMessages([...unreadMessages, newMessage.username]);
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[newMessage])
-
+    }, [newMessage]);
 
     useEffect(() => {
-        if(bottomOfMessages.current === undefined) return;
-        if(newMessage.type === 'userJoined') return
-        if(newMessage.type === 'sentByMe' || newMessage.username === selectedChat.username) bottomOfMessages.current.scrollIntoView({ behavior: 'smooth' });
+        if (bottomOfMessages.current === undefined) return;
+        if (newMessage.type === "userJoined") return;
+        if (newMessage.type === "sentByMe" || newMessage.username === selectedChat.username)
+            bottomOfMessages.current.scrollIntoView({ behavior: "smooth" });
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[messagesList])
-            
+    }, [messagesList]);
+
     return (
-        <List sx={{ height: "84vh", overflowY: "auto", mt:'20px'}}>
-            {selectedChat.username !== undefined && selectedChat.username !== '' ?
+        <List
+            sx={{ height: { xs: "79vh", sm: "79vh", md: "84vh" }, overflowY: "auto", mt: { xs: 9, sm: 9, md: "20px" } }}
+        >
+            {selectedChat.username !== undefined && selectedChat.username !== "" ? (
                 <>
-                    {messagesList.map(item => {
-                        if(item.username !== selectedChat.username) return false;
-                        
-                        if(item.messages.length === 0) {
+                    {messagesList.map((item) => {
+                        if (item.username !== selectedChat.username) return false;
+
+                        if (item.messages.length === 0) {
                             return (
-                                <Typography key={'empty'} component="h5" variant="h5" align='center' mt='40vh' color='grey.400' >
+                                <Typography
+                                    key={"empty"}
+                                    component="h5"
+                                    variant="h5"
+                                    align="center"
+                                    mt="40vh"
+                                    color="grey.400"
+                                >
                                     This conversation is empty
                                 </Typography>
-                            )
-                        }else {
+                            );
+                        } else {
                             return item.messages.map((message, id) => {
-                                return <ChatMessage key={id} message={message.text} date={message.date} sentByMe={message.sentByMe}/>
-                            })
+                                return (
+                                    <ChatMessage
+                                        key={id}
+                                        message={message.text}
+                                        date={message.date}
+                                        sentByMe={message.sentByMe}
+                                    />
+                                );
+                            });
                         }
-                    })}   
+                    })}
                     <div ref={bottomOfMessages}></div>
                 </>
-            :
-                <Typography component="h5" variant="h5" align='center' mt='40vh' color='grey.400' >
+            ) : (
+                <Typography component="h5" variant="h5" align="center" mt="40vh" color="grey.400">
                     Select user to chat with from user list
-                </Typography> 
-            }
+                </Typography>
+            )}
         </List>
-        
     );
 }
 
