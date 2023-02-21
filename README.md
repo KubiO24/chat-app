@@ -5,16 +5,22 @@
 <h4 align="center">Simple chat app made with React and Express.js</h4>
 
 <p align="center">
-  <a href="#key-features">Key Features/a> •
+  <a href="#key-features">Key Features</a> •
   <a href="#how-to-use">How To Use</a> •
   <a href="#how-to-use">How To Use</a> •
   <a href="#credits">Credits</a> •
   <a href="#Author">Author</a>
 </p>
 
-![login](https://github.com/KubiO24/KubiO24/blob/main/chat-app/login.png)
-![conversation](https://github.com/KubiO24/KubiO24/blob/main/chat-app/conversation.png)
-![search](https://github.com/KubiO24/KubiO24/blob/main/chat-app/search.png)
+<p align="center">
+  <img alt="login" src="https://github.com/KubiO24/KubiO24/blob/main/chat-app/login.png" />
+</p>
+<p align="center">
+  <img alt="conversation" src="https://github.com/KubiO24/KubiO24/blob/main/chat-app/conversation.png" />
+</p>
+<p align="center">
+  <img alt="search" src="https://github.com/KubiO24/KubiO24/blob/main/chat-app/search.png" />
+</p>
 
 ## Key Features
 
