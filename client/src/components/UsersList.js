@@ -92,15 +92,8 @@ function UsersList() {
                         <ListItemText
                             primary={user.username}
                             sx={{
-                                width: "100%",
-                                marginRight: 1,
                                 overflow: "hidden",
                             }}
-                        />
-                        <ListItemText
-                            secondary="online"
-                            align="right"
-                            sx={{ marginRight: 1 }}
                         />
                     </ListItem>
                 );
