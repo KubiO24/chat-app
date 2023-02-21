@@ -9,8 +9,7 @@
     "scripts": {
         "server": "node server",
         "client": "cd ./client && npm run start",
-        "build": "npm run server",
-        "temp_vercel-build": "npm install && npm run server && cd ./client && npm install && npm run build",
+        "heroku-postbuild": "npm install && npm run server && cd ./client && npm install && npm run build",
         "devServer": "nodemon server"
     },
     "repository": {
