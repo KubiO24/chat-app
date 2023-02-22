@@ -13,13 +13,19 @@
 </p>
 
 <p align="center">
-  <img alt="login" src="https://github.com/KubiO24/KubiO24/blob/main/chat-app/login.png" />
+  <kbd>
+    <img alt="login" src="https://github.com/KubiO24/KubiO24/blob/main/chat-app/login.png" />
+  </kbd>
 </p>
 <p align="center">
-  <img alt="conversation" src="https://github.com/KubiO24/KubiO24/blob/main/chat-app/conversation.png" />
+  <kbd>
+    <img alt="conversation" src="https://github.com/KubiO24/KubiO24/blob/main/chat-app/conversation.png" />
+  </kbd>
 </p>
 <p align="center">
-  <img alt="search" src="https://github.com/KubiO24/KubiO24/blob/main/chat-app/search.png" />
+  <kbd>
+    <img alt="search" src="https://github.com/KubiO24/KubiO24/blob/main/chat-app/search.png" />
+  </kbd>
 </p>
 
 ## Key Features
