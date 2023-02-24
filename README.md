@@ -5,11 +5,14 @@
 <h4 align="center">Simple chat app made with React and Express.js</h4>
 
 <p align="center">
+  <a href="#gallery">Gallery</a> •
   <a href="#key-features">Key Features</a> •
   <a href="#how-to-use">How To Use</a> •
   <a href="#credits">Credits</a> •
   <a href="#Author">Author</a>
 </p>
+
+## Gallery
 
 <p align="center">
   <kbd>
