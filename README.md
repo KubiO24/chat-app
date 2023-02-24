@@ -13,12 +13,17 @@
 
 <p align="center">
   <kbd>
-    <img alt="weak password" src="https://github.com/KubiO24/KubiO24/blob/main/password-generator/weak-password.png" />
+    <img alt="login" src="https://github.com/KubiO24/KubiO24/blob/main/chat-app/login.png" />
   </kbd>
 </p>
 <p align="center">
   <kbd>
-    <img alt="strong password" src="https://github.com/KubiO24/KubiO24/blob/main/password-generator/strong-password.png" />
+    <img alt="conversation" src="https://github.com/KubiO24/KubiO24/blob/main/chat-app/conversation.png" />
+  </kbd>
+</p>
+<p align="center">
+  <kbd>
+    <img alt="search" src="https://github.com/KubiO24/KubiO24/blob/main/chat-app/search.png" />
   </kbd>
 </p>
 
